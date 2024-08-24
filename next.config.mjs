@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "flowbite.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

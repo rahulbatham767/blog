@@ -66,10 +66,14 @@ const Blog = () => {
       image: imageUrl, // Use the Cloudinary image URL
     };
 
+    dispatch(Post_Blog(blogPost));
+    await onPublish(blogPost);
+  };
+
+  const onPublish = async (blogPost) => {
     try {
-      await axios.post("http://localhost:3000/post", blogPost);
-      dispatch(Post_Blog(blogPost));
-      console.log("Blog post data:", blogPost);
+      const response = await axios.post("http://localhost:3000/post", blogPost);
+      console.log("Blog post submitted successfully:", response.data);
     } catch (error) {
       console.error("Error submitting blog post:", error);
     }

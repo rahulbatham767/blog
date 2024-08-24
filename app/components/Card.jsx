@@ -11,9 +11,11 @@ const Card = ({ post }) => {
 
   return (
     <div className="flex flex-wrap justify-center gap-4 m-5">
-      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow align-baseline dark:bg-gray-800 dark:border-gray-700">
         <Link href="/">
-          <div style={{ width: "100%", height: "300px", position: "relative" }}>
+          <div
+            style={{ width: "300px", height: "300px", position: "relative" }}
+          >
             <Image
               className="rounded-t-lg"
               src={post?.image || ""} // Dynamic image URL with a fallback
@@ -30,8 +32,12 @@ const Card = ({ post }) => {
             </h5>
           </a>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {post?.body || "No content available"}{" "}
-            {/* Fallback to "No content available" */}
+            {/* {post?.body || "No content available"}{" "} */}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: post ? post.body : "<p>Description</p>",
+              }}
+            />
           </p>
           <p>
             Author:{" "}

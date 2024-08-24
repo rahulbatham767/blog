@@ -9,11 +9,11 @@ export async function GET() {
 }
 
 export async function POST(req) {
-  const { title, body, image, author } = await req.json();
-  console.log(title, body, image);
+  const { title, content, image, author } = await req.json();
+  console.log(title, content, image);
   try {
     await connectMongoDB();
-    const newPost = await Post.create({ title, body, image, author });
+    const newPost = await Post.create({ title, body: content, image, author }); // Properly assign 'content' to 'body'
 
     return Response.json({
       success: "Post Successfully created",
