@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-const page = () => {
+const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -74,7 +74,7 @@ const page = () => {
             Sign In
           </button>
           <p className="flex justify-center mt-6 font-sans text-sm antialiased font-light leading-normal text-inherit">
-            Don't have an account?
+            Dont have an account?
             <Link
               href="/signup"
               className="block ml-1 font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900"
@@ -88,4 +88,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,7 +1,7 @@
 import React from "react";
 import Blog from "@/app/components/Blog";
 
-const page = () => {
+const Page = () => {
   return (
     <div className="flex  mx-auto gap-7  justify-center my-12">
       <div>
@@ -12,4 +12,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
