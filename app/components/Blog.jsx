@@ -1,11 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import Quill's CSS
+import "react-quill/dist/quill.snow.css";
 import { useDropzone } from "react-dropzone";
-import { useDispatch } from "react-redux";
-import { Post_Blog } from "../redux/slice/userSlice";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { postblog } from "../redux/slice/userSlice";
+
+import Image from "next/image";
 
 const Blog = () => {
   const [title, setTitle] = useState("");
@@ -14,13 +15,15 @@ const Blog = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [uploading, setUploading] = useState(false);
+
   const dispatch = useDispatch();
+  const { isLoading, isError } = useSelector((state) => state.blog);
 
   const onDrop = async (acceptedFiles) => {
     const file = acceptedFiles[0];
 
     if (file && file.type.startsWith("image/")) {
-      setImagePreview(URL.createObjectURL(file)); // Show the image preview
+      setImagePreview(URL.createObjectURL(file));
       setUploading(true);
 
       const uploadPreset = "blog_application"; // Your Cloudinary upload preset
@@ -63,23 +66,12 @@ const Blog = () => {
       title,
       author,
       content,
-      image: imageUrl, // Use the Cloudinary image URL
+      image: imageUrl,
     };
 
-    dispatch(Post_Blog(blogPost));
-    await onPublish(blogPost);
+    await dispatch(postblog(blogPost));
   };
 
-  const onPublish = async (blogPost) => {
-    try {
-      const response = await axios.post("http://localhost:3000/post", blogPost);
-      console.log("Blog post submitted successfully:", response.data);
-    } catch (error) {
-      console.error("Error submitting blog post:", error);
-    }
-  };
-
-  // Clean up the image preview URL when the component unmounts
   useEffect(() => {
     return () => {
       if (imagePreview) {
@@ -89,8 +81,8 @@ const Blog = () => {
   }, [imagePreview]);
 
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="">
+    <div className="flex flex-col space-y-4 relative">
+      <div>
         <div className="mb-4">
           <input
             type="text"
@@ -118,19 +110,31 @@ const Blog = () => {
           {uploading ? (
             <p>Uploading image...</p>
           ) : (
-            <p>Drag 'n' drop an image here, or click to select one</p>
+            <p>Drag and drop an image here, or click to select one</p>
           )}
         </div>
 
         {imagePreview && (
           <div className="mb-4">
-            <img src={imagePreview} alt="Image Preview" className="max-w-xs" />
+            <Image
+              src={imagePreview}
+              alt="Image Preview"
+              width="300"
+              height="300"
+              className="max-w-xs"
+            />
           </div>
         )}
 
         <button onClick={handleSubmit} className="btn btn-primary">
           Publish
         </button>
+
+        {isError && (
+          <p className="text-red-500 mt-2">
+            An error occurred. Please try again.
+          </p>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,5 @@
 import React from "react";
-import Blog from "../components/blog";
-import Card from "../components/Card";
-import CardView from "../components/CardView";
+import Blog from "@/app/components/Blog";
 
 const page = () => {
   return (
