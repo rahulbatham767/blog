@@ -17,15 +17,8 @@ const Blog = () => {
   const [uploading, setUploading] = useState(false);
 
   const router = useRouter();
-  const { login, isLoading, isError, message, postPosts } = useBlogStore();
+  const { isError, postPosts } = useBlogStore();
 
-  const handleSignIn = async () => {
-    await login({ email, password });
-
-    if (!isError) {
-      router.push("/"); // Redirect on successful login
-    }
-  };
   const onDrop = async (acceptedFiles) => {
     const file = acceptedFiles[0];
 

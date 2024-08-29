@@ -36,7 +36,7 @@ const Navbar = () => {
           )}
 
           <li>
-            <Link href="/create-blog" className="ml-3">
+            <Link href="/createblog" className="ml-3">
               Create-blog
             </Link>
           </li>
