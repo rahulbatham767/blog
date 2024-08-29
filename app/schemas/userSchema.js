@@ -1,6 +1,6 @@
 // src/schemas/userSchema.js
 
-import z from "zod";
+import { z } from "zod";
 const userSchema = z.object({
   firstname: z.string().nonempty("First name is required"),
   lastname: z.string().nonempty("Last name is required"),
