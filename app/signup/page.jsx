@@ -7,27 +7,12 @@ const Page = () => {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastName] = useState("");
+
   const handleSignup = async () => {
-    try {
-      const response = await fetch("/user/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ firstname, lastname, email, password }),
-      });
+    await signup({ firstname, lastname, email, password });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Handle successful sign-in (e.g., store the token, redirect)
-        console.log("Signed in successfully:", data);
-      } else {
-        // Handle error
-        console.error("Error signing in:", data.error);
-      }
-    } catch (error) {
-      console.error("Error signing in:", error);
+    if (!isError) {
+      router.push("/login"); // Redirect on successful login
     }
   };
 

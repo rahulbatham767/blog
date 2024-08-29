@@ -34,9 +34,12 @@ export async function POST(req) {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-
-    cookies().set("authToken", token);
-
+    cookies().set("authToken", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 60 * 60, // 1 hour
+      path: "/", // Ensure the cookie is available for all routes
+    });
     return Response.json({
       success: "Login successful",
       data: {

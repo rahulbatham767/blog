@@ -1,38 +1,29 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
+import useBlogStore from "../store/useBlogStore";
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const router = useRouter();
+  const { login, isLoading, isError, message, loggedIn } = useBlogStore();
+
+  useEffect(() => {
+    if (loggedIn) {
+      router.push("/");
+    }
+  }, [loggedIn, router]);
+
   const handleSignIn = async () => {
-    try {
-      const response = await fetch("/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-      console.log(response);
-      if (response.ok) {
-        // Handle successful sign-in (e.g., store the token, redirect)
-        console.log("Signed in successfully:", data);
-
-        localStorage.setItem("authToken", data.data.token);
-        router.push("/");
-      } else {
-        // Handle error
-        console.error("Error signing in:", data.error);
-      }
-    } catch (error) {
-      console.error("Error signing in:", error);
+    await login({ email, password });
+    if (loggedIn) {
+      router.push("/");
     }
   };
-
+  if (loggedIn) return null;
   return (
     <div className="flex justify-center items-center mt-20">
       <div className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border">

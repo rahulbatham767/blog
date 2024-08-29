@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDropzone } from "react-dropzone";
-import { useDispatch, useSelector } from "react-redux";
-import { postblog } from "../redux/slice/userSlice";
 
 import Image from "next/image";
+import useBlogStore from "../store/useBlogStore";
+import { useRouter } from "next/navigation";
 
 const Blog = () => {
   const [title, setTitle] = useState("");
@@ -16,9 +16,16 @@ const Blog = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  const dispatch = useDispatch();
-  const { isLoading, isError } = useSelector((state) => state.blog);
+  const router = useRouter();
+  const { login, isLoading, isError, message, postPosts } = useBlogStore();
 
+  const handleSignIn = async () => {
+    await login({ email, password });
+
+    if (!isError) {
+      router.push("/"); // Redirect on successful login
+    }
+  };
   const onDrop = async (acceptedFiles) => {
     const file = acceptedFiles[0];
 
@@ -69,7 +76,8 @@ const Blog = () => {
       image: imageUrl,
     };
 
-    await dispatch(postblog(blogPost));
+    await postPosts(blogPost);
+    router.push("/");
   };
 
   useEffect(() => {

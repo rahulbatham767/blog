@@ -1,20 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Card from "./components/Card";
-import { useDispatch, useSelector } from "react-redux";
-import { getBlog } from "./redux/slice/userSlice";
 
+import Card from "./components/Card";
+import useBlogStore from "./store/useBlogStore";
 export default function Home() {
-  const dispatch = useDispatch();
+  const { posts, fetchPosts, isLoading, isError } = useBlogStore();
 
   useEffect(() => {
-    const response = dispatch(getBlog());
-  }, [dispatch]);
+    fetchPosts(); // Fetch posts when the component mounts
+  }, [fetchPosts]);
 
-  const { isLoading, data } = useSelector((state) => state.blog.blogSlice);
-
-  console.log(data);
+  console.log(posts.length);
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error: {isError}</p>;
 
   return (
     <main className="min-h-screen min-w-screen">
@@ -28,8 +26,8 @@ export default function Home() {
       )}
       <div className="flex justify-center   mt-16">
         <div className="flex   items-center gap-5 flex-wrap">
-          {data.length > 0 ? (
-            data.map((post, id) => <Card key={id} post={post} />)
+          {posts.length > 0 ? (
+            posts.map((post, id) => <Card key={id} post={post} />)
           ) : (
             <p>No posts available</p>
           )}

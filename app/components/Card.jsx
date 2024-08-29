@@ -21,8 +21,7 @@ const Card = ({ post }) => {
               className="rounded-t-lg"
               src={post?.image || ""}
               alt={post?.title || "No title"}
-              layout="fill"
-              objectFit="cover"
+              fill
             />
           </div>
         </Link>
@@ -32,13 +31,13 @@ const Card = ({ post }) => {
               {post?.title || "No Title"}
             </h5>
           </a>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <div className="mb-3 font-normal text-gray-700 dark:text-gray-400">
             <div
               dangerouslySetInnerHTML={{
                 __html: post ? trim(post.body) : "<p>Description</p>",
               }}
             />
-          </p>
+          </div>
           <p>
             Author:{" "}
             <span className="font-semibold">{post?.author || "Unknown"}</span>
