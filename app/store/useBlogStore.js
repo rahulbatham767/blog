@@ -109,11 +109,22 @@ const useBlogStore = create(
         set({ isLoading: true });
         try {
           const posts = await PostBlogAPI(blogPost);
-          set({ isLoading: false, isError: null });
+          set({
+            isLoading: false,
+            isError: null,
+            message: {
+              type: "success",
+              message: "Blog post successfully",
+            },
+          });
         } catch (error) {
           set({
             isError: error.response?.data?.message || error.message,
             isLoading: false,
+            message: {
+              type: "danger",
+              message: "Error Occured while posting Blog",
+            },
           });
         }
       },

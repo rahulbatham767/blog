@@ -1,21 +1,31 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import useBlogStore from "../store/useBlogStore";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastName] = useState("");
+  const { signup, loggedIn } = useBlogStore();
 
+  const router = useRouter();
   const handleSignup = async () => {
     await signup({ firstname, lastname, email, password });
 
-    if (!isError) {
-      router.push("/login"); // Redirect on successful login
+    if (loggedIn) {
+      router.push("/");
     }
   };
+  useEffect(() => {
+    if (loggedIn) {
+      router.push("/");
+    }
+  }, [loggedIn, router]);
 
+  if (loggedIn) return null;
   return (
     <div className="flex justify-center items-center">
       <div className="relative flex flex-col text-gray-700 bg-transparent shadow-none rounded-xl bg-clip-border">

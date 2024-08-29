@@ -9,7 +9,7 @@ const Page = () => {
   const [password, setPassword] = useState("");
 
   const router = useRouter();
-  const { login, isLoading, isError, message, loggedIn } = useBlogStore();
+  const { login, loggedIn } = useBlogStore();
 
   useEffect(() => {
     if (loggedIn) {
