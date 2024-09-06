@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-
+import { NextResponse } from "next/server";
 export async function POST() {
   try {
     // Clear the cookie by setting its expiration date in the past
@@ -10,11 +10,11 @@ export async function POST() {
       path: "/",
     });
 
-    return new Response(JSON.stringify({ success: "Logout successful" }), {
+    return new NextResponse(JSON.stringify({ success: "Logout successful" }), {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new NextResponse(JSON.stringify({ error: error.message }), {
       status: 500,
     });
   }

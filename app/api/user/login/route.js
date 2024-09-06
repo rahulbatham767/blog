@@ -1,5 +1,5 @@
 import connectMongoDB from "@/app/lib/mongodb";
-
+import { NextResponse } from "next/server";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -13,7 +13,7 @@ export async function POST(req) {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return Response.json(
+      return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 400 }
       );
@@ -22,7 +22,7 @@ export async function POST(req) {
     // Compare the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return Response.json(
+      return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 400 }
       );
@@ -40,7 +40,7 @@ export async function POST(req) {
       maxAge: 60 * 60, // 1 hour
       path: "/", // Ensure the cookie is available for all routes
     });
-    return Response.json({
+    return NextResponse.json({
       success: "Login successful",
       data: {
         token,
@@ -52,6 +52,6 @@ export async function POST(req) {
       },
     });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

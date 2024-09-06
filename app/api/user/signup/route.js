@@ -3,13 +3,17 @@ import userSchema from "@/app/schemas/userSchema";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 export async function POST(req) {
   const { firstname, lastname, email, password } = await req.json();
   await connectMongoDB();
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return Response.json({ message: "User already exists" }, { status: 400 });
+      return NextResponse.json(
+        { message: "User already exists" },
+        { status: 400 }
+      );
     }
 
     // Hash the password

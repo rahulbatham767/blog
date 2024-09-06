@@ -1,5 +1,6 @@
 import connectMongoDB from "@/app/lib/mongodb";
 import Post from "@/models/Post";
+import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
   await connectMongoDB();
@@ -14,7 +15,7 @@ export async function DELETE(req, { params }) {
   const { id } = params;
   await Post.findByIdAndDelete(id);
 
-  return Response.json(
+  return NextResponse.json(
     { message: "Post Successfully Delete" },
     { status: 200 }
   );
@@ -36,10 +37,10 @@ export async function PUT(req, { params }) {
     { new: true }
   );
   if (!post) {
-    return Response.json({ Message: "Error while fetching post" });
+    return NextResponse.json({ Message: "Error while fetching post" });
   }
 
-  return Response.json(
+  return NextResponse.json(
     { post: Post, message: "post updated Successfully" },
     { status: 200 }
   );
