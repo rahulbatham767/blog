@@ -7,7 +7,7 @@ export async function GET(req, { params }) {
   const { id } = params;
   const Post = await Post.findOne({ _id: id });
 
-  return Response.json({ post: Post }, { status: 200 });
+  return NextResponse.json({ post: Post }, { status: 200 });
 }
 
 export async function DELETE(req, { params }) {
